@@ -48,6 +48,14 @@ insert into empleados values(1,'Juan',1),(2,'Jose',2),(3,'Carlos',2),(4,'Palermo
 select * from sucursales;
 select * from empleados;
 
+-- inner join
+-- listar el nombre de los empleados y las sucursales donde ellos trabajan.
+select		e.emp_nombre 'Nombre de Empleado',
+			s.suc_nombre sucursal
+from		sucursales as s
+inner join	empleados e
+on			(e.suc_id = s.suc_id);
+        
 
 
 
