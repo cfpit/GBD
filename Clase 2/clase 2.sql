@@ -146,6 +146,36 @@ and			state = 'ca'
 order by	2;
 
 
+-- Ejercitacion  sobre la Base Negocio:
+use negocio;
+
+--  1) Listar la cantidad de clientes que hicieron alguna 
+-- compra en el segundo semestre de 2017
+select	count(idcliente) 'cantidad de clientes'
+from	facturas
+where	year(fecha) = 2017
+and		month(fecha) between 7 and 12;
+
+
+--   2) Informar la cantidad de compras por cliente. Informar 
+-- el nombre y apellido en una única columna de dichos clientes. 
+-- Ordenar por cantidad de compras en forma descendente.
+select		concat(c.nombre,' ',c.apellido) as cliente,
+			count(f.idcliente) as cantidad
+from		clientes c
+inner join	facturas f on c.idcliente = f.idcliente
+group by	cliente
+order by	2 desc;
+
+
+
+
+
+
+
+
+
+
 
 
 
