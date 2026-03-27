@@ -1,0 +1,58 @@
+Caracteristicas de una Relacion
+	--> Grado
+	--> Conectividad
+	--> Condicionalidad
+
+-----------------------------------------------------------
+Construccion de Diagramas de Entidad -Relacion
+
+https://staruml.io/
+
+https://www.lucidchart.com/pages/es
+
+https://www.drawio.com/
+
+https://dia.softonic.com/
+
+Enterprise Arquitech (con Licencia)
+https://sparxsystems.com/products/ea/
+
+----------------------------------------------
+
+Pasos Construccion DER
+1) Determinar las entidades relevantes al sistema
+2) Determinar los atributos relevantes de cada entidad
+3) Identificar relaciones entre objetos.
+4) Clasificar relaciones según conceptos de grado, conectividad, condicionalidad.
+5) Identificar tipos de objetos asociativos.
+6) Identificar supertipos y subtipos, agrupando objetos que posean atributos comunes y alguna condición de
+diferenciación.
+7) Dibujar el DER según la notación de la herramienta.
+8) Eliminar elementos redundantes o fuera del alcance del sistema.(Normalizacion)
+
+---------------------------------------------------------
+Ejemplo de Analisis de Requerimientos
+
+Persona
+Obra
+m:n
+toa -> ficha de actividad 
+
+Persona
+Tarea
+m:n
+
+Profesional
+Obra
+m:n condicional
+
+Obra
+Recurso
+m:n condicional
+toa -> planilla de uso del recurso
+
+
+Proveedor
+Recurso
+m:n condicional
+toa --> contrato de alquiler
