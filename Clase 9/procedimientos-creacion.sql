@@ -42,6 +42,12 @@ select * from empleados;
 
 -- 5- Ejecute el procedimiento creado anteriormente.
  call pa_empleados_sueldo();
+ 
+ -- ver los procedimientos de la base actual
+ SELECT routine_name, routine_type, created, last_altered
+FROM information_schema.ROUTINES
+WHERE routine_schema = 'procedimientos'
+  AND routine_type = 'PROCEDURE';
 
 -- 6- Elimine el procedimiento llamado "pa_empleados_hijos" si existe:
  drop procedure if exists pa_empleados_hijos;
@@ -67,3 +73,7 @@ call pa_empleados_hijos();
 -- para verificar que ahora si aparece en la lista.
  update empleados set cantidadhijos=1 where documento='22333333';
  call pa_empleados_hijos();
+ 
+ 
+ 
+ 
