@@ -1,0 +1,21 @@
+delimiter $$
+create trigger nombre_trigger
+evento
+on nombre_tabla
+for each row
+begin
+	-- sentencias
+end
+
+$$ delimiter;
+
+---------------------------------------
+
+before insert 	--> new --> campos de la tabla afectada por el evento
+				--> valida condiciones sobre registros q se quieren insertar en la tabla
+
+after update  --> new
+
+before delete --> old
+before update --> old
+
