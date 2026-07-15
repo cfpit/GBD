@@ -1,0 +1,50 @@
+
+    /* 
+        Insertar documentos 
+        Creamos la colección libros e insertamos el primer documento, 
+        la colección se crea en el momento que insertamos el primer documento:
+    */
+
+use('pubs'); 
+db.libros.insertOne(
+  {
+    codigo: 1,  
+    nombre: 'El aleph',
+    autor: 'Borges',
+    editoriales: ['Planeta','Siglo XXI']
+  }
+)
+
+/* insertamos el 2do documento */
+use('pubs');
+db.libros.insertOne(
+  {
+    codigo: 2,
+    nombre: 'Martin Fierro',
+    autor: 'Jose Hernandez',
+    editoriales: ['Planeta']
+  }
+)
+
+/* 
+    Campo obligatorio _id
+    En MongoDB todo documento requiere un campo clave que se debe llamar _id. Si nosotros 
+    como desarrolladores no definimos dicho campo el mismo se crea en forma automática y 
+    se carga un valor único.
+
+    Podemos definir y cargar un valor en el campo _id cuando inicializamos un documento
+ */
+use('pubs');
+ db.clientes.insertOne(
+  {
+    _id: 1,  
+    nombre: 'Lopez Marcos',
+    domicilio: 'Colon 111',
+    provincia: 'Cordoba'
+  }
+)
+
+
+
+
+

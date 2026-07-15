@@ -1,0 +1,109 @@
+//creo base de datos negocio
+use("negocio");
+//creo la coleccion clientes
+db.createCollection('clientes');
+
+
+//ver las colecciones de una base
+use("negocio");
+db.getCollectionNames()
+
+
+//ver los documentos de una  coleccion
+use("negocio");
+db.getCollection('clientes').find({})
+
+//ver los documentos de una  coleccion
+use("negocio");
+db.clientes.find()
+
+//nota: para crear la base x defecto hay q hacerlo junto con la coleccion
+
+//selecciono la base x defecto
+use('negocio');
+
+//Insertar un elemento definido previamente
+item1 = {
+  Nombre: "Luís",
+  Apellidos: "Martinez",
+  Edad: 18,
+  Aficiones: ["fútbol","senderismo","tenis"],
+  Amigos: [
+   {
+     Nombre:"Monica",
+     Edad:20
+   },
+   {
+     Nombre:"Andrés",
+     Edad:24
+   }
+  ]
+};
+
+db.clientes.insert(item1);
+
+//ver los documentos de la coleccion clientes
+use('negocio');
+db.clientes.find();
+
+
+//Insertar un elemento directamente
+use('negocio');
+db.clientes.insert({
+  Nombre: "Marisa",
+  Apellidos: "García",
+  Edad: 18,
+  Aficiones: ["senderismo","tenis","pintura"],
+  Amigos: [
+   {
+     Nombre:"Monica",
+     Edad:20
+   }
+  ]
+});
+
+
+
+//Insertar array de documentos
+use('negocio');
+
+item3 = {
+  Nombre: "Joaquin",
+  Apellidos: "Rodriguez",
+  Edad: 18,
+  Aficiones: ["fútbol","natación"],
+  Amigos: [
+   {
+     Nombre:"Andrés",
+     Edad:24
+   }
+  ]
+};
+
+item4 = {
+  Nombre: "Luís",
+  Apellidos: "Martinez",
+  Edad: 28,
+  Aficiones: ["natación","culturismo"],
+  Amigos: [
+   {
+     Nombre:"Juan",
+     Edad:40
+   },
+   {
+     Nombre:"Antonio",
+     Edad:52
+   }
+  ]
+};
+
+db.clientes.insert([item3, item4]);
+
+db.clientes.find();
+
+
+//ver los documentos de la coleccion clientes
+use('negocio');
+db.clientes.find();
+
+

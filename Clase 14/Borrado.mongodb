@@ -1,0 +1,56 @@
+/* Borrado de bases de datos, colecciones y documentos */
+
+use ('base1');
+db.libros.insertMany(
+  [
+    {
+      codigo: 3,  
+      nombre: 'Aprenda PHP',
+      autor: 'Mario Molina',
+      editoriales: ['Planeta']
+    },
+    {
+      codigo: 4,  
+      nombre: 'Java en 10 minutos',
+      autor: 'Barros Sergio',
+      editoriales: ['Planeta','Siglo XXI']
+    }
+  ]
+);
+
+/* 
+    Si queremos eliminar todos los documentos de una colección debemos utilizar el 
+    método "deleteMany" aplicado a una colección existente. Es importante notar que 
+    luego de llamar al método deleteMany la colección "libros" sigue existiendo
+ */
+
+use('base1')
+db.libros.deleteMany({})
+
+use('base1')
+db.getCollectionNames()
+
+/* 
+    Para eliminar los documentos de una colección y la colección propiamente dicha 
+    debemos emplear el método "drop" 
+*/
+
+use('base1')
+db.libros.drop()
+
+use('base1')
+db.getCollectionNames()
+
+/* 
+    Para eliminar una base de datos en forma completa, es decir todas sus colecciones 
+    y documentos debemos emplear el método dropDatabase del objeto "db" 
+*/
+
+db.getMongo().getDBs()
+use ('base1');
+
+db.dropDatabase();
+db.getMongo().getDBs()
+
+
+

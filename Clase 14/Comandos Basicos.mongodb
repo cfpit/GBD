@@ -1,0 +1,17 @@
+/* Comandos Basicos de MongoDB */
+use("baseEjemplo");
+db.createCollection('Coleccion1');
+
+/* ver las bases del motor mongoDB */
+show dbs;
+
+/* insertar documento en la coleccion */
+use("baseEjemplo");
+db.Coleccion1.insertOne({codigo:1,nombre:"juan"});
+
+use("baseEjemplo");
+db.Coleccion1.find()
+
+
+
+
