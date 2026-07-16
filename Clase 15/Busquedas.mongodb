@@ -1,0 +1,214 @@
+//Comandos de búsqueda
+use('negocio');
+db.clientes.find()
+//1. Consulta de datos
+//Personas mayores de 25 años
+use('negocio');
+db.clientes.find({"Edad": {$gt: 25}})
+//Nota: $ gt selecciona aquellos documentos donde el valor del campo es mayor que el valor especificado
+
+//2. Mostrar proyección
+//Mostrar nombre y apellidos de los clientes con nombre "Marisa" encontrados
+
+//usamos proyecciones para mostrar solo los atributos deseados
+use('negocio');
+db.clientes.find({Nombre: "Marisa" },{Nombre:1,Apellidos:1,Edad:1, _id:0})
+
+//muestro todo menos el apellido
+use('negocio');
+db.clientes.find({Nombre: "Marisa" },{Apellidos:0})
+
+//muestro solo el nombre
+use('negocio');
+db.clientes.find({Nombre: "Marisa" },{Nombre:1})
+
+ 
+
+//Mostar todos los datos de una colección
+//Formato básico
+use('negocio');
+db.clientes.find()
+
+//EJEMPLO DE BASE DE DATOS UTILIZADA PARA LAS BÚSQUEDAS:
+//{ "_id" : ObjectId("5a6f05fbb56b58b447e66809"), "Nombre" : "Luís", "Apellidos" : "Martinez", "Edad" : 18, "Aficiones" : [ "fútbol", "senderismo", "tenis" ], "Amigos" : [ { "Nombre" : "Monica", "Edad" : 20 }, { "Nombre" : "Andrés", "Edad" : 24 } ] } 
+//{ "_id" : ObjectId("5a6f06fab56b58b447e6680a"), "Nombre" : "Marisa", "Apellidos" : "García", "Edad" : 18, "Aficiones" : [ "senderismo", "tenis", "pintura" ], "Amigos" : [ { "Nombre" : "Monica", "Edad" : 20 } ] } 
+//{ "_id" : ObjectId("5a6f08e5b56b58b447e6680b"), "Nombre" : "Joaquin", "Apellidos" : "Rodriguez", "Edad" : 18, "Aficiones" : [ "fútbol", "natación" ], "Amigos" : [ { "Nombre" : "Andrés", "Edad" : 24 } ] } 
+//{ "_id" : ObjectId("5a6f08e5b56b58b447e6680c"), "Nombre" : "Luís", "Apellidos" : "Martinez", "Edad" : 28, "Aficiones" : [ "natación", "culturismo" ], "Amigos" : [ { "Nombre" : "Juan", "Edad" : 40 }, { "Nombre" : "Antonio", "Edad" : 52 } ] }
+ 
+
+//Formato más legible con pretty()
+use('negocio');
+db.clientes.find().pretty()
+
+//Operaciones de comparación
+
+//Mayor que
+//Mostrar nombre y apellidos de los mayores de 25 años
+use('negocio');
+db.clientes.find({"Edad": {$gt: 25}},{Nombre:1, Apellidos:1})
+
+//Menor que
+//Mostrar nombre y apellidos de los menores de 25 años
+use('negocio');
+db.clientes.find({"Edad": {$lt: 25}},{Nombre:1, Apellidos:1})
+
+//Mostrar nombre y apellidos de los clientes de 28 años
+use('negocio');
+db.clientes.find({"Edad": {$eq: 28}},{Nombre:1, Apellidos:1})
+
+//Operadores de existencia y tipo
+//Como MongoDB es una base de datos sin esquema, cada documento puede tener distintos campos 
+//e incluso estos campos pueden ser de distintos tipos.
+
+//Existencia
+//Por esto es muy habitual usar en las consultas una operación que nos indique la existencia 
+//de un campo.
+//muestra solo el nombre de los clientes q no tienen definido el apellido
+use('negocio');
+db.clientes.insert({ Nombre: "Natalia", Edad: 18, Aficiones: ["pintura"] })
+use('negocio');
+db.clientes.find({Apellidos:{$exists:false}},{Nombre:1})
+
+
+//Tipo
+//Si queremos hacer una consulta por tipo de dato usaríamos:
+use('negocio');
+db.clientes.find({Apellidos:{$type:2}},{Nombre:1})
+/*
+  BSON es la codificación binaria de documentos similares a JSON 
+  que MongoDB usa al almacenar documentos en colecciones. Agrega 
+  soporte para tipos de datos como Date y binary que no son compatibles
+  con JSON. $type:2(String)
+  https://docs.mongodb.com/manual/reference/operator/query/type/
+*/
+
+//Operaciones lógicas:
+//Conjunción Y ($and)
+use('negocio');
+db.clientes.find(
+  { 
+    $and: 
+      [ 
+        {Edad: {$gt:17}}, 
+        {Nombre: "Marisa" } 
+      ] 
+  }
+)
+
+
+//Disyunción O ($or)
+use('negocio');
+db.clientes.find(
+  { 
+    $or: 
+      [ 
+        {Edad: {$gt: 20}}, 
+        {Nombre: "Marisa" } 
+      ] 
+  }
+)
+
+
+//Negación NO ($not)
+use('negocio');
+db.clientes.find( {Edad:{$not: {$gt:23}}})
+
+//Negación NO ($nor)
+//Acepta dos o mas valores
+use('negocio');
+db.clientes.find({$nor:[{Edad:{$gt:23}}, {Nombre: "Marisa"}]}) 
+
+//Operaciones sobre sub-documentos
+use('negocio');
+db.inventario.insertMany([
+   { "_id" : 1, "Nombre" : "peras", descripcion: "producto 1", "stock" : 220 },
+   { "_id" : 2, "Nombre" : "manzanas", descripcion: "producto 2", "stock" : 91 },
+   { "_id" : 3, "Nombre" : "naranjas", descripcion: "producto 3", "stock" : 72 },
+   { "_id" : 4, "Nombre" : "platanos", descripcion: "producto 4", "stock" : 32 },
+   { "_id" : 5, "Nombre": null, descripcion: "Incompleta" },
+   { "_id" : 6 }
+])
+
+use('negocio');
+db.compras.insert([
+   { "_id" : 1, "Item" : "peras", "precio" : 12, "cantidad" : 2 },
+   { "_id" : 2, "Item" : "manzanas", "precio" : 20, "cantidad" : 1 },
+   { "_id" : 3  }
+])
+
+//integridad referencial entre objetos
+use('negocio');
+db.compras.aggregate([ 
+  { $lookup: 
+    { 
+      from: "inventario", 
+      localField: "Item", 
+      foreignField: "Nombre", 
+      as: "inventario_docs" 
+     } 
+   } 
+])
+
+//Expresiones regulares: $regex
+//nombres de clientes q contengan exactamente "Natalia"
+use('negocio');
+db.clientes.find({"Nombre": {$regex:"Natalia"}},{Nombre:1})
+
+//idem anterior pero usando backslash
+use('negocio');
+db.clientes.find({"Nombre": {$regex:/Natalia/}},{Nombre:1})
+
+//nombres de clientes q no contengan exactamente "Natalia"
+use('negocio');
+db.clientes.find({Nombre:{'$regex' : '^((?!Natalia).)*$', '$options' : 'i'}})
+
+//nombres de clientes q terminen con la letra a
+use('negocio');
+db.clientes.find({"Nombre": {$regex:"a$"}},{Nombre:1})
+
+//nombres de clientes q empiecen con la letra M
+use('negocio');
+db.clientes.find({"Nombre": {$regex:"^M"}},{Nombre:1})
+
+//nombres de clientes q empiecen con la letra L y terminen en s
+use('negocio');
+db.clientes.find({"Nombre": {$regex:"^L.*s$"}},{Nombre:1})
+
+//idem anterior pero case insensitive
+use('negocio');
+db.clientes.find({Nombre:{'$regex' : '^l.*s$', '$options' : 'i'}})
+
+//Operaciones sobre arrays
+
+//Contar
+use('negocio');
+db.clientes.find().count()
+
+//Ordenar ascendente
+use('negocio');
+db.clientes.find({},{Nombre:1}).sort({Nombre:1})
+//{ "_id" : ObjectId("5a6f090db56b58b447e6680d"), "Nombre" : "Joaquin" }
+//{ "_id" : ObjectId("5a6f05fbb56b58b447e66809"), "Nombre" : "Luís" }
+//{ "_id" : ObjectId("5a6f06fab56b58b447e6680a"), "Nombre" : "Marisa" }
+//{ "_id" : ObjectId("5a6f49aab56b58b447e6680f"), "Nombre" : "Natalia" }
+
+//Ordenar descendente
+use('negocio');
+db.clientes.find({},{Nombre:1}).sort({Nombre:-1})
+//{ "_id" : ObjectId("5a6f49aab56b58b447e6680f"), "Nombre" : "Natalia" }
+//{ "_id" : ObjectId("5a6f06fab56b58b447e6680a"), "Nombre" : "Marisa" }
+//{ "_id" : ObjectId("5a6f05fbb56b58b447e66809"), "Nombre" : "Luís" }
+//{ "_id" : ObjectId("5a6f090db56b58b447e6680d"), "Nombre" : "Joaquin" }
+
+//Limitar la búsqueda
+use('negocio');
+db.clientes.find({},{Nombre:1}).sort({Nombre:1}).limit(2)
+//{ "_id" : ObjectId("5a6f090db56b58b447e6680d"), "Nombre" : "Joaquin" }
+//{ "_id" : ObjectId("5a6f05fbb56b58b447e66809"), "Nombre" : "Luís" }
+
+//Buscar a partir del X
+use('negocio');
+db.clientes.find({},{Nombre:1}).sort({Nombre:1}).skip(2)
+//{ "_id" : ObjectId("5a6f06fab56b58b447e6680a"), "Nombre" : "Marisa" }
+//{ "_id" : ObjectId("5a6f49aab56b58b447e6680f"), "Nombre" : "Natalia" }
+
