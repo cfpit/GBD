@@ -1,0 +1,11 @@
+mysql 	-> int
+		-> auto_increment
+		-> limit 5,4
+		-> constraint nombre foreign key(campo) references otraTabla(clave_primaria)
+
+
+postgre -> integer
+		-> serial
+		-> limit 4 offset 5
+		-> campo tipo_de_dato references otraTabla(clave_primaria)
+
